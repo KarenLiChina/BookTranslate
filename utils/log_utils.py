@@ -10,7 +10,7 @@ if not os.path.exists(log_dir):  # 如果日志目录不存在，则创建
 
 LOG_FILE = "translation.log"  # 存储日志的文件
 
-# Trace < Debug < Info < Success < Warning < Error < Critical
+# Trace < Debug < Info < Success < Warning < Error < Critical 严重错误
 
 class MyLogger:
     def __init__(self):
