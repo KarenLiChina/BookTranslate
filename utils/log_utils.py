@@ -56,5 +56,5 @@ if __name__ == '__main__':
             print(3/0)
         except ZeroDivisionError as e:
             log.error(e)
-            log.exception(e)  # 以后常用
+            log.exception(e)  # 以后常用，用的也是error级别输出，会有更详细的信息
     test()
