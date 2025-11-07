@@ -1,0 +1,10 @@
+openai
+pdfplumber
+python-dotenv
+simplejson
+pillow
+reportlab
+pyyaml
+reportlab
+panadas
+loguru
