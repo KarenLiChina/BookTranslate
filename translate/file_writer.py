@@ -1,15 +1,16 @@
 import os
 
 import pandas as pd
-from fontTools.ttLib import TTFont
 from reportlab.lib import pagesizes, colors
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, TableStyle, Table, PageBreak
 from scipy.constants import inch
 
 from domain.content import ContentType
 from utils.log_utils import log
+
 
 class FileWriter:
 
@@ -23,6 +24,7 @@ class FileWriter:
         :param file_format:
         :return:
         """
+        print(file_format)
         if file_format.lower() == 'pdf':
             self.save_book_pdf(output_path)
         elif file_format.lower() == 'markdown':
@@ -40,13 +42,15 @@ class FileWriter:
             output_path = self.book.pdf_file_path.replace('.pdf', '_translated.pdf')
 
             # 写数据到文件中
-            log.debug(f'pdf原文件路径是：{self.book.file_path}, 翻译之后的输出文件路径: {output_path}')
+            log.debug(f'pdf原文件路径是：{self.book.pdf_file_path}, 翻译之后的输出文件路径: {output_path}')
 
             # 1、先注册中文字体
-            pdfmetrics.registerFont(TTFont('SimSun', '../fonts/simsun.ttc'))
+            font_path = os.path.abspath('./fonts/simsunb.ttf')
+            print(font_path)
+            pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
             # 2、创建一个pdf的文字段落样式
-            style = ParagraphStyle('SimSun', fontName='SimSun', fontSize=12, leading=14)
+            style =ParagraphStyle('ChineseStyle', fontName='STSong-Light', fontSize=12, leading=14)# ParagraphStyle('SimSun', fontName='SimSun', fontSize=12, leading=14)
 
             # 3、创建一个pdf的文档
             doc = SimpleDocTemplate(output_path, pagesize=pagesizes.letter)

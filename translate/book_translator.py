@@ -28,7 +28,7 @@ class PDFTranslator:
         :return:
         """
         self.book = parse_pdf(file_path, pages)  # 解析文件得到一个book对象
-
+        self.writer.book = self.book
         for page_index, page in enumerate(self.book.pages):
             for content_index, content in enumerate(page.contents):
                 # 翻译每一个内容
@@ -39,7 +39,7 @@ class PDFTranslator:
 
                 log.debug(f'翻译之后的内容是：{translation_test}')
                 #把翻译之后的文本和状态设置到content对象中
-                self.book.pages[page_index].contents[content_index].set_translate(translation_test, status)
+                self.book.pages[page_index].contents[content_index].set_translation(translation_test, status)
 
         # 把翻译后的数据写入文件 Writer
         self.writer.save_book(out_file_path, out_file_format)

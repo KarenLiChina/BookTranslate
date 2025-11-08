@@ -9,4 +9,4 @@ OpenAIModel:
 
 common:
   book: "test/test.pdf"
-  file_format: "md"
+  file_format: "PDF"

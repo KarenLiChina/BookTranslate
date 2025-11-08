@@ -1,7 +1,5 @@
-import os
 from dotenv import load_dotenv
 
-from ai_model.glm_model import ChatGLMModel
 from ai_model.openai_model import OpenAIModel
 from translate.book_translator import PDFTranslator
 from utils.argument_utils import ArgumentUtils
@@ -33,8 +31,8 @@ if __name__ == '__main__':
     file_path: str = args.book if args.book else config['common']['book']
     file_format: str = args.book.file_format if args.book else config['common']['file_format']
 
-    if file_path[file_path.rindex('.')].lower() == '.pdf':
+    if file_path[file_path.rindex('.'):] == '.pdf' or file_path[file_path.rindex('.'):] == '.PDF':
         translator = PDFTranslator(model)
     else:
-        pass # 其他格式的书籍
-    translator.translate_book(file_path,file_format)
+        pass  # 其他格式的书籍
+    translator.translate_book(file_path, file_format)

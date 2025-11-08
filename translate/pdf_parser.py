@@ -22,7 +22,7 @@ def parse_pdf(pdf_file_path: str, pages: Optional[int] = None) -> Book:
         if pages and pages > len(pdf.pages):
             raise PageOutOfRangeException(len(pdf.pages), pages)
         if pages is None:  # 如果pages没传，就默认翻译整本书
-            pages = len(pdf.pages)
+            pages_arr = pdf.pages
         else:
             pages_arr = pdf.pages[:pages]  # 通过切片截取前pages个页面
 
