@@ -1,4 +1,6 @@
 from typing import Optional
+
+from .file_writer import FileWriter
 from .pdf_parser import parse_pdf
 from ai_model.model import Model
 from utils.log_utils import log
@@ -10,7 +12,9 @@ class PDFTranslator:
     """
 
     def __init__(self, model: Model):
+        self.book=None
         self.model = model
+        self.writer = FileWriter(self.book)
 
     def translate_book(self, file_path: str, out_file_format: str = 'PDF', target_language: str = '中文',
                        out_file_path: str = None, pages: Optional[int] = None):
@@ -23,7 +27,6 @@ class PDFTranslator:
         :param pages:
         :return:
         """
-        pass
         self.book = parse_pdf(file_path, pages)  # 解析文件得到一个book对象
 
         for page_index, page in enumerate(self.book.pages):
@@ -37,3 +40,6 @@ class PDFTranslator:
                 log.debug(f'翻译之后的内容是：{translation_test}')
                 #把翻译之后的文本和状态设置到content对象中
                 self.book.pages[page_index].contents[content_index].set_translate(translation_test, status)
+
+        # 把翻译后的数据写入文件 Writer
+        self.writer.save_book(out_file_path, out_file_format)

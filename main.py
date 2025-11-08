@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 from ai_model.glm_model import ChatGLMModel
 from ai_model.openai_model import OpenAIModel
+from translate.book_translator import PDFTranslator
 from utils.argument_utils import ArgumentUtils
 from utils.load_config import LoadConfig
 
@@ -24,6 +25,16 @@ if __name__ == '__main__':
 
     # 初始化模型对象
     if args.model_type == 'OpenAIModel':
-        model = OpenAIModel()
+        model = OpenAIModel(model_name, api_key)
     else:
-        model = ChatGLMModel()
+        # model = ChatGLMModel()
+        pass
+    # 初始化一个翻译器,得到入口文件路径
+    file_path: str = args.book if args.book else config['common']['book']
+    file_format: str = args.book.file_format if args.book else config['common']['file_format']
+
+    if file_path[file_path.rindex('.')].lower() == '.pdf':
+        translator = PDFTranslator(model)
+    else:
+        pass # 其他格式的书籍
+    translator.translate_book(file_path,file_format)
